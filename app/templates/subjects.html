@@ -48,6 +48,10 @@
     </div>
 {% endif %}
 
+<p style="margin-top: 10px;">
+    <a href="/subjects/{{ subject.id }}/edit">Edit Subject</a>
+</p>
+
 <form method="post" action="/subjects/{{ subject.id }}/delete" style="margin-top: 10px;">
     <button
         type="submit"

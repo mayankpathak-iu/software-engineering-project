@@ -54,6 +54,59 @@ def create_subject(
     return RedirectResponse(url="/subjects", status_code=303)
 
 
+@router.get("/subjects/{subject_id}/edit")
+def edit_subject_page(subject_id: int, request: Request, db: Session = Depends(get_db)):
+    user_id = request.session.get("user_id")
+    if not user_id:
+        return RedirectResponse(url="/login", status_code=303)
+
+    subject = (
+        db.query(Subject)
+        .filter(Subject.id == subject_id, Subject.user_id == user_id)
+        .first()
+    )
+
+    if not subject:
+        return RedirectResponse(url="/subjects", status_code=303)
+
+    return templates.TemplateResponse(
+        request,
+        "edit_subject.html",
+        {"request": request, "subject": subject},
+    )
+
+
+@router.post("/subjects/{subject_id}/edit")
+def update_subject(
+    subject_id: int,
+    request: Request,
+    name: str = Form(...),
+    code: str = Form(""),
+    color: str = Form(""),
+    db: Session = Depends(get_db),
+):
+    user_id = request.session.get("user_id")
+    if not user_id:
+        return RedirectResponse(url="/login", status_code=303)
+
+    subject = (
+        db.query(Subject)
+        .filter(Subject.id == subject_id, Subject.user_id == user_id)
+        .first()
+    )
+
+    if not subject:
+        return RedirectResponse(url="/subjects", status_code=303)
+
+    subject.name = name
+    subject.code = code
+    subject.color = color
+
+    db.commit()
+
+    return RedirectResponse(url="/subjects", status_code=303)
+
+
 @router.post("/subjects/{subject_id}/delete")
 def delete_subject(subject_id: int, request: Request, db: Session = Depends(get_db)):
     user_id = request.session.get("user_id")

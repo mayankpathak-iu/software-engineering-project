@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Edit Subject</h1>
+
+    <form method="post" action="/subjects/{{ subject.id }}/edit">
+        <label>Subject name</label>
+        <input type="text" name="name" value="{{ subject.name }}" required>
+
+        <label>Subject code</label>
+        <input type="text" name="code" value="{{ subject.code or '' }}">
+
+        <label>Color</label>
+        <input type="color" name="color" value="{{ subject.color or '#3b82f6' }}">
+
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <p style="margin-top: 16px;">
+        <a href="/subjects">Back to Subjects</a>
+    </p>
+</div>
+{% endblock %}
