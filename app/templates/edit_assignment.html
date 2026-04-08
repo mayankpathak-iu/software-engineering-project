@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Edit Assignment</h1>
+
+    <form method="post" action="/assignments/{{ assignment.id }}/edit">
+        <label>Subject</label>
+        <select name="subject_id" required style="width: 100%; padding: 10px; margin-top: 8px; margin-bottom: 14px;">
+            {% for subject in subjects %}
+                <option value="{{ subject.id }}" {% if subject.id == assignment.subject_id %}selected{% endif %}>
+                    {{ subject.name }}{% if subject.code %} ({{ subject.code }}){% endif %}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Title</label>
+        <input type="text" name="title" value="{{ assignment.title }}" required>
+
+        <label>Description</label>
+        <input type="text" name="description" value="{{ assignment.description or '' }}">
+
+        <label>Due date</label>
+        <input type="date" name="due_date" value="{{ assignment.due_date }}" required>
+
+        <label>Priority</label>
+        <select name="priority" required style="width: 100%; padding: 10px; margin-top: 8px; margin-bottom: 14px;">
+            <option value="low" {% if assignment.priority == 'low' %}selected{% endif %}>Low</option>
+            <option value="medium" {% if assignment.priority == 'medium' %}selected{% endif %}>Medium</option>
+            <option value="high" {% if assignment.priority == 'high' %}selected{% endif %}>High</option>
+        </select>
+
+        <label>Status</label>
+        <select name="status" required style="width: 100%; padding: 10px; margin-top: 8px; margin-bottom: 14px;">
+            <option value="pending" {% if assignment.status == 'pending' %}selected{% endif %}>Pending</option>
+            <option value="in_progress" {% if assignment.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+            <option value="completed" {% if assignment.status == 'completed' %}selected{% endif %}>Completed</option>
+        </select>
+
+        <label>Estimated hours</label>
+        <input type="number" name="estimated_hours" min="1" value="{{ assignment.estimated_hours }}" required>
+
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <p style="margin-top: 16px;">
+        <a href="/assignments">Back to Assignments</a>
+    </p>
+</div>
+{% endblock %}

@@ -65,7 +65,10 @@
                     {% if assignment.description %}
                         Description: {{ assignment.description }}<br>
                     {% endif %}
-
+                    
+                    <p style="margin-top: 10px;">
+    <a href="/assignments/{{ assignment.id }}/edit">Edit Assignment</a>
+</p>
                     <form method="post" action="/assignments/{{ assignment.id }}/delete" style="margin-top: 10px;">
                         <button type="submit">Delete</button>
                     </form>
