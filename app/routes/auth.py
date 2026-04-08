@@ -28,6 +28,16 @@ def signup(
     password: str = Form(...),
     db: Session = Depends(get_db),
 ):
+    if len(password.encode("utf-8")) > 72:
+        return templates.TemplateResponse(
+            request,
+            "signup.html",
+            {
+                "request": request,
+                "error": "Password must be 72 bytes or fewer.",
+            },
+        )
+
     existing_user = db.query(User).filter(User.email == email).first()
     if existing_user:
         return templates.TemplateResponse(
