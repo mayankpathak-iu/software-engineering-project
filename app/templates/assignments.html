@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Assignments</h1>
+
+    {% if subjects %}
+    <form method="post" action="/assignments">
+        <label>Subject</label>
+        <select name="subject_id" required style="width: 100%; padding: 10px; margin-top: 8px; margin-bottom: 14px;">
+            {% for subject in subjects %}
+                <option value="{{ subject.id }}">{{ subject.name }}{% if subject.code %} ({{ subject.code }}){% endif %}</option>
+            {% endfor %}
+        </select>
+
+        <label>Title</label>
+        <input type="text" name="title" required>
+
+        <label>Description</label>
+        <input type="text" name="description">
+
+        <label>Due date</label>
+        <input type="date" name="due_date" required>
+
+        <label>Priority</label>
+        <select name="priority" required style="width: 100%; padding: 10px; margin-top: 8px; margin-bottom: 14px;">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+        </select>
+
+        <label>Status</label>
+        <select name="status" required style="width: 100%; padding: 10px; margin-top: 8px; margin-bottom: 14px;">
+            <option value="pending" selected>Pending</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
+        </select>
+
+        <label>Estimated hours</label>
+        <input type="number" name="estimated_hours" min="1" required>
+
+        <button type="submit">Add Assignment</button>
+    </form>
+    {% else %}
+        <p>You need to create at least one subject before adding assignments.</p>
+        <p><a href="/subjects">Go to Subjects</a></p>
+    {% endif %}
+</div>
+
+<br>
+
+<div class="card">
+    <h2>Your Assignments</h2>
+
+    {% if assignments %}
+        <ul style="list-style: none; padding: 0;">
+            {% for assignment in assignments %}
+                <li style="margin-bottom: 14px; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                    <strong>{{ assignment.title }}</strong><br>
+                    Subject: {{ assignment.subject.name }}<br>
+                    Due: {{ assignment.due_date }}<br>
+                    Priority: {{ assignment.priority }}<br>
+                    Status: {{ assignment.status }}<br>
+                    Estimated Hours: {{ assignment.estimated_hours }}<br>
+                    {% if assignment.description %}
+                        Description: {{ assignment.description }}<br>
+                    {% endif %}
+
+                    <form method="post" action="/assignments/{{ assignment.id }}/delete" style="margin-top: 10px;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No assignments added yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
