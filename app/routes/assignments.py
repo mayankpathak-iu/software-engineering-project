@@ -11,17 +11,30 @@ templates = Jinja2Templates(directory="app/templates")
 
 
 @router.get("/assignments")
-def list_assignments(request: Request, db: Session = Depends(get_db)):
+def list_assignments(
+    request: Request,
+    subject_id: str | None = None,
+    status: str | None = None,
+    db: Session = Depends(get_db),
+):
     user_id = request.session.get("user_id")
     if not user_id:
         return RedirectResponse(url="/login", status_code=303)
 
-    assignments = (
-        db.query(Assignment)
-        .filter(Assignment.user_id == user_id)
-        .order_by(Assignment.created_at.desc())
-        .all()
-    )
+    query = db.query(Assignment).filter(Assignment.user_id == user_id)
+
+    selected_subject_id = None
+    if subject_id:
+        try:
+            selected_subject_id = int(subject_id)
+            query = query.filter(Assignment.subject_id == selected_subject_id)
+        except ValueError:
+            selected_subject_id = None
+
+    if status:
+        query = query.filter(Assignment.status == status)
+
+    assignments = query.order_by(Assignment.created_at.desc()).all()
 
     subjects = (
         db.query(Subject)
@@ -37,6 +50,8 @@ def list_assignments(request: Request, db: Session = Depends(get_db)):
             "request": request,
             "assignments": assignments,
             "subjects": subjects,
+            "selected_subject_id": selected_subject_id,
+            "selected_status": status,
         },
     )
 
