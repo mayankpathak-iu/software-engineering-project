@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Welcome to StudyFlow</h1>
+
+    {% if user %}
+        <p>Hello, {{ user.full_name }}.</p>
+        <p>You are logged in.</p>
+    {% else %}
+        <p>User not found.</p>
+    {% endif %}
+</div>
+{% endblock %}
