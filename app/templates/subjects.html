@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Subjects</h1>
+
+    <form method="post" action="/subjects">
+        <label>Subject name</label>
+        <input type="text" name="name" required>
+
+        <label>Subject code</label>
+        <input type="text" name="code">
+
+        <label>Color</label>
+        <input type="color" name="color" value="#3b82f6">
+
+        <button type="submit">Add Subject</button>
+    </form>
+</div>
+
+<br>
+
+<div class="card">
+    <h2>Your Subjects</h2>
+
+    {% if subjects %}
+        <ul style="list-style: none; padding: 0;">
+            {% for subject in subjects %}
+                <li style="margin-bottom: 14px; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                    <strong>{{ subject.name }}</strong>
+                    {% if subject.code %}
+                        <span>({{ subject.code }})</span>
+                    {% endif %}
+            {% if subject.color %}
+                <div style="margin-top: 6px; display: flex; align-items: center; gap: 8px;">
+                    <span>Color:</span>
+                     <span
+                            style="
+                                display: inline-block;
+                                width: 18px;
+                                height: 18px;
+                                border-radius: 4px;
+                                border: 1px solid #ccc;
+                                background-color: {{ subject.color }};
+                                "
+            ></span>
+            <span>{{ subject.color }}</span>
+    </div>
+{% endif %}
+
+                    <form method="post" action="/subjects/{{ subject.id }}/delete" style="margin-top: 10px;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No subjects added yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

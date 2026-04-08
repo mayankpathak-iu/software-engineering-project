@@ -4,7 +4,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from app.db import Base, engine
 import app.models  # noqa: F401
-from app.routes import auth, dashboard
+from app.routes import auth, dashboard, subjects
 
 app = FastAPI(title="StudyFlow")
 
@@ -16,7 +16,7 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 app.include_router(auth.router)
 app.include_router(dashboard.router)
-
+app.include_router(subjects.router)
 
 @app.get("/")
 def root():
