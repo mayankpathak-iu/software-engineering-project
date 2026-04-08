@@ -3,13 +3,75 @@
 {% block content %}
 <div class="card">
     <h1>Welcome to StudyFlow</h1>
+    <p>Hello, {{ user.full_name }}.</p>
+</div>
 
-    {% if user %}
-        <p>Hello, {{ user.full_name }}.</p>
-        <p>You are logged in.</p>
-        <p><a href="/subjects">Go to Subjects</a></p>
+<br>
+
+<div class="card">
+    <h2>Overdue Assignments</h2>
+    {% if overdue %}
+       <ul style="list-style: none; padding: 0; margin: 0;">
+    {% for item in overdue %}
+        <li style="padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+            <div><strong>{{ item.title }}</strong></div>
+            <div style="font-size: 14px; color: #555; margin-top: 4px;">
+                Subject: {{ item.subject.name }}
+            </div>
+            <div style="font-size: 14px; color: #555;">
+                Due Date: {{ item.due_date }}
+            </div>
+        </li>
+    {% endfor %}
+</ul>
     {% else %}
-        <p>User not found.</p>
+        <p>No overdue assignments.</p>
+    {% endif %}
+</div>
+
+<br>
+
+<div class="card">
+    <h2>Due Within 7 Days</h2>
+    {% if due_soon %}
+       <ul style="list-style: none; padding: 0; margin: 0;">
+    {% for item in due_soon %}
+        <li style="padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+            <div><strong>{{ item.title }}</strong></div>
+            <div style="font-size: 14px; color: #555; margin-top: 4px;">
+                Subject: {{ item.subject.name }}
+            </div>
+            <div style="font-size: 14px; color: #555;">
+                Due Date: {{ item.due_date }}
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+    {% else %}
+        <p>No assignments due soon.</p>
+    {% endif %}
+</div>
+
+<br>
+
+<div class="card">
+    <h2>Completed Assignments</h2>
+    {% if completed %}
+        <ul style="list-style: none; padding: 0; margin: 0;">
+    {% for item in completed %}
+        <li style="padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+            <div><strong>{{ item.title }}</strong></div>
+            <div style="font-size: 14px; color: #555; margin-top: 4px;">
+                Subject: {{ item.subject.name }}
+            </div>
+            <div style="font-size: 14px; color: #555;">
+                Status: Completed
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+    {% else %}
+        <p>No completed assignments yet.</p>
     {% endif %}
 </div>
 {% endblock %}
