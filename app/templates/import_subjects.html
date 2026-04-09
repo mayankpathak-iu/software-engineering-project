@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Import Subjects from Calendar</h1>
+
+    {% if candidates %}
+        <form method="post" action="/calendar/import-subjects">
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                {% for item in candidates %}
+                    <li style="margin-bottom: 14px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+
+                        <div style="margin-bottom: 12px;">
+                            <input
+                                type="checkbox"
+                                name="selected_titles"
+                                value="{{ item.raw_title }}"
+                                checked
+                            >
+                            <strong>Original Calendar Entry:</strong> {{ item.raw_title }}
+                        </div>
+
+                        <label style="display: block; margin-bottom: 4px;">Subject Code</label>
+                        <input
+                            type="text"
+                            name="code::{{ item.raw_title }}"
+                            value="{{ item.suggested_code }}"
+                            style="display: block; width: 100%; box-sizing: border-box; margin-bottom: 12px; padding: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                        >
+
+                        <label style="display: block; margin-bottom: 4px;">Subject Name</label>
+                        <input
+                            type="text"
+                            name="name::{{ item.raw_title }}"
+                            value="{{ item.suggested_name }}"
+                            required
+                            style="display: block; width: 100%; box-sizing: border-box; padding: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                        >
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <button type="submit">Create Selected Subjects</button>
+        </form>
+    {% else %}
+        <p>No subject candidates found. Upload a class schedule first.</p>
+    {% endif %}
+
+    <p style="margin-top: 16px;">
+        <a href="/calendar">Back to Calendar</a>
+    </p>
+</div>
+{% endblock %}

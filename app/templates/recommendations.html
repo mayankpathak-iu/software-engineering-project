@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Study Recommendations</h1>
+    <p>Hello, {{ user.full_name }}.</p>
+</div>
+
+<br>
+
+<div class="card">
+    <h2>Recommendations</h2>
+
+    {% if recommendations %}
+        <ul>
+            {% for item in recommendations %}
+                <li style="margin-bottom: 10px;">{{ item }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No recommendations available.</p>
+    {% endif %}
+</div>
+
+<br>
+
+<div class="card">
+    <h2>Pending Assignments Considered</h2>
+
+    {% if pending_assignments %}
+        <ul style="list-style: none; padding: 0;">
+            {% for item in pending_assignments %}
+                <li style="margin-bottom: 14px; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                    <strong>{{ item.title }}</strong><br>
+                    Subject: {{ item.subject }}<br>
+                    Due Date: {{ item.due_date }}<br>
+                    Priority: {{ item.priority }}<br>
+                    Estimated Hours: {{ item.estimated_hours }}<br>
+                    {% if item.days_left is not none %}
+                        Days Left: {{ item.days_left }}
+                    {% else %}
+                        Days Left: Unknown
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No pending assignments found.</p>
+    {% endif %}
+</div>
+
+<br>
+
+<div class="card">
+    <h2>Class Load by Day</h2>
+
+    {% if busy_by_day %}
+        <ul>
+            {% for day, count in busy_by_day.items() %}
+                <li>{{ day }}: {{ count }} class event(s)</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No saved class schedule found.</p>
+    {% endif %}
+</div>
+{% endblock %}
