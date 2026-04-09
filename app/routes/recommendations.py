@@ -7,7 +7,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app.db import get_db
-from app.models import Assignment, ClassEvent, Subject, User
+from app.models import Assignment, ClassEvent, User
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -65,10 +65,7 @@ def recommendations_page(request: Request, db: Session = Depends(get_db)):
     pending_assignments = []
     for assignment in assignments:
         due = get_assignment_date(assignment.due_date)
-        if due:
-            days_left = (due - today).days
-        else:
-            days_left = None
+        days_left = (due - today).days if due else None
 
         pending_assignments.append(
             {
@@ -100,7 +97,7 @@ def recommendations_page(request: Request, db: Session = Depends(get_db)):
             )
         else:
             recommendations.append(
-                f"Start with '{top['title']}' for {top['subject']}. It appears to be your highest priority pending task."
+                f"Start with '{top['title']}' for {top['subject']}. It appears to be your highest-priority pending task."
             )
 
     total_pending_hours = sum(a["estimated_hours"] for a in pending_assignments)
@@ -111,7 +108,7 @@ def recommendations_page(request: Request, db: Session = Depends(get_db)):
 
     if light_days:
         recommendations.append(
-            f"Your lighter class day(s) appear to be: {', '.join(light_days[:2])}. These may be good for focused study sessions."
+            f"Your lighter class day(s) appear to be: {', '.join(light_days[:2])}. These may be the best days for focused study."
         )
 
     urgent_items = [a for a in pending_assignments if a["days_left"] is not None and a["days_left"] <= 3]
@@ -121,8 +118,22 @@ def recommendations_page(request: Request, db: Session = Depends(get_db)):
             f"Urgent assignment(s) due within 3 days: {urgent_titles}."
         )
 
+    if total_pending_hours >= 10:
+        recommendations.append(
+            "Your pending workload is fairly heavy. Consider splitting study time across multiple lighter days this week."
+        )
+
+    if pending_assignments and light_days:
+        best_day = light_days[0]
+        first_task = pending_assignments[0]
+        recommendations.append(
+            f"A good next step would be to work on '{first_task['title']}' on {best_day}, when your class schedule looks lighter."
+        )
+
     if not recommendations:
-        recommendations.append("No recommendations available yet. Add assignments and upload your class schedule first.")
+        recommendations.append(
+            "No recommendations available yet. Add assignments and upload your class schedule first."
+        )
 
     return templates.TemplateResponse(
         request,

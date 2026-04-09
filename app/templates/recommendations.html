@@ -9,12 +9,12 @@
 <br>
 
 <div class="card">
-    <h2>Recommendations</h2>
+    <h2>Recommended Next Steps</h2>
 
     {% if recommendations %}
-        <ul>
+        <ul style="padding-left: 20px; margin: 0;">
             {% for item in recommendations %}
-                <li style="margin-bottom: 10px;">{{ item }}</li>
+                <li style="margin-bottom: 12px;">{{ item }}</li>
             {% endfor %}
         </ul>
     {% else %}
@@ -28,7 +28,7 @@
     <h2>Pending Assignments Considered</h2>
 
     {% if pending_assignments %}
-        <ul style="list-style: none; padding: 0;">
+        <ul style="list-style: none; padding: 0; margin: 0;">
             {% for item in pending_assignments %}
                 <li style="margin-bottom: 14px; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
                     <strong>{{ item.title }}</strong><br>
@@ -55,9 +55,9 @@
     <h2>Class Load by Day</h2>
 
     {% if busy_by_day %}
-        <ul>
+        <ul style="padding-left: 20px; margin: 0;">
             {% for day, count in busy_by_day.items() %}
-                <li>{{ day }}: {{ count }} class event(s)</li>
+                <li style="margin-bottom: 8px;">{{ day }}: {{ count }} class event(s)</li>
             {% endfor %}
         </ul>
     {% else %}
