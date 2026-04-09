@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Suggested Study Planner</h1>
+    <p>Hello, {{ user.full_name }}. This planner uses due dates, estimated hours, priorities, and your class schedule.</p>
+</div>
+
+<br>
+
+<div class="card">
+    <h2>Planning Warnings</h2>
+
+    {% if warnings %}
+        <ul style="padding-left: 20px; margin: 0;">
+            {% for item in warnings %}
+                <li style="margin-bottom: 10px; color: #b91c1c;">{{ item }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No major scheduling risks detected.</p>
+    {% endif %}
+</div>
+
+<br>
+
+<div class="card">
+    <h2>Assignment Priority Analysis</h2>
+
+    {% if assignment_data %}
+        <ul style="list-style: none; padding: 0; margin: 0;">
+            {% for item in assignment_data %}
+                <li style="margin-bottom: 14px; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                    <strong>{{ item.title }}</strong><br>
+                    Subject: {{ item.subject }}<br>
+                    Due Date: {{ item.due_date }}<br>
+                    Priority: {{ item.priority }}<br>
+                    Estimated Hours: {{ item.estimated_hours }}<br>
+                    Days Left: {{ item.days_left }}<br>
+                    Hours Needed Per Day: {{ item.hours_per_day_needed }}<br>
+                    Priority Score: {{ item.priority_score }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No pending assignments found.</p>
+    {% endif %}
+</div>
+
+<br>
+
+{% if day_plan %}
+    {% for day in day_plan %}
+        <div class="card" style="margin-bottom: 20px;">
+            <h2 style="margin-bottom: 8px;">{{ day.day_name }} - {{ day.date }}</h2>
+            <p style="margin-top: 0; color: #555;">
+                Class load score: {{ day.busy_score }} |
+                Suggested study capacity: {{ day.capacity }} hour(s) |
+                Planned: {{ day.used_hours }} hour(s)
+            </p>
+
+            {% if day["items"] %}
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    {% for item in day["items"] %}
+                        <li style="padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                            <div><strong>{{ item.title }}</strong></div>
+                            <div style="font-size: 14px; color: #555; margin-top: 4px;">
+                                Subject: {{ item.subject }}
+                            </div>
+                            <div style="font-size: 14px; color: #555;">
+                                Suggested Study Time: {{ item.hours }} hour(s)
+                            </div>
+                            <div style="font-size: 14px; color: #555;">
+                                Priority: {{ item.priority }}
+                            </div>
+                            <div style="font-size: 14px; color: #555;">
+                                Due Date: {{ item.due_date }}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No suggested study tasks for this day.</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="card">
+        <p>No planner data available yet.</p>
+    </div>
+{% endif %}
+{% endblock %}

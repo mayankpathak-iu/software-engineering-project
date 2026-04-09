@@ -4,7 +4,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from app.db import Base, engine
 import app.models  # noqa: F401
-from app.routes import auth, dashboard, subjects, assignments, calendar, recommendations
+from app.routes import auth, dashboard, subjects, assignments, calendar, recommendations, planner
 
 
 app = FastAPI(title="StudyFlow")
@@ -21,6 +21,7 @@ app.include_router(subjects.router)
 app.include_router(assignments.router)
 app.include_router(calendar.router)
 app.include_router(recommendations.router)
+app.include_router(planner.router)
 
 @app.get("/")
 def root():
