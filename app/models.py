@@ -16,6 +16,8 @@ class User(Base):
 
     subjects = relationship("Subject", back_populates="user", cascade="all, delete-orphan")
     assignments = relationship("Assignment", back_populates="user", cascade="all, delete-orphan")
+    class_events = relationship("ClassEvent", cascade="all, delete-orphan")
+
 
 
 class Subject(Base):
@@ -51,3 +53,18 @@ class Assignment(Base):
 
     user = relationship("User", back_populates="assignments")
     subject = relationship("Subject", back_populates="assignments")
+
+
+class ClassEvent(Base):
+    __tablename__ = "class_events"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+
+    title = Column(String(255), nullable=False)
+    start_time = Column(String(50), nullable=False)
+    end_time = Column(String(50), nullable=False)
+
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    user = relationship("User")

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Class Schedule Upload</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="post" action="/calendar/upload" enctype="multipart/form-data">
+        <label>Upload .ics timetable</label>
+        <input type="file" name="file" accept=".ics" required>
+        <button type="submit">Upload Calendar</button>
+    </form>
+
+    <form method="post" action="/calendar/clear" style="margin-top: 12px;">
+        <button
+            type="submit"
+            onclick="return confirm('Are you sure you want to remove all uploaded class events?')"
+        >
+            Clear Saved Schedule
+        </button>
+    </form>
+</div>
+
+<br>
+
+<div class="card">
+    <h2>Saved Class Events</h2>
+
+    {% if events %}
+        <ul style="list-style: none; padding: 0;">
+            {% for event in events %}
+                <li style="margin-bottom: 14px; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                    <strong>{{ event.title }}</strong><br>
+                    Start: {{ event.start_time }}<br>
+                    End: {{ event.end_time }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No class schedule uploaded yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
