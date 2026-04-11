@@ -6,17 +6,19 @@
     <title>StudyFlow</title>
     <style>
         :root {
-            --bg: #f5f7fb;
-            --card: #ffffff;
+            --bg: #f6f8fc;
+            --surface: #ffffff;
+            --surface-soft: #f9fafb;
             --text: #1f2937;
             --muted: #6b7280;
             --border: #e5e7eb;
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
             --danger: #dc2626;
+            --danger-dark: #b91c1c;
             --success: #16a34a;
-            --shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-            --radius: 14px;
+            --shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+            --radius: 16px;
         }
 
         * {
@@ -24,56 +26,52 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
+            font-family: Arial, sans-serif;
             background: var(--bg);
             color: var(--text);
         }
 
-        .page {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 32px 20px 60px;
-        }
-
         .topbar {
-            background: white;
-            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 20;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
         }
 
         .topbar-inner {
-            max-width: 1100px;
+            max-width: 1180px;
             margin: 0 auto;
             padding: 16px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
+            gap: 16px;
             flex-wrap: wrap;
         }
 
         .brand {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text);
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
         }
 
         nav {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
         nav a {
             text-decoration: none;
             color: var(--text);
-            padding: 8px 12px;
+            padding: 9px 14px;
             border-radius: 999px;
             font-size: 14px;
-            transition: 0.2s ease;
+            font-weight: 600;
+            transition: background 0.18s ease, color 0.18s ease;
         }
 
         nav a:hover {
@@ -81,53 +79,88 @@
             color: var(--primary-dark);
         }
 
+        .page {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 28px 20px 56px;
+        }
+
+        .stack {
+            display: grid;
+            gap: 20px;
+        }
+
         .card {
-            background: var(--card);
+            background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 24px;
             box-shadow: var(--shadow);
         }
 
-        h1, h2, h3 {
-            margin-top: 0;
-            color: var(--text);
+        .card.compact {
+            padding: 18px;
         }
 
-        h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
-        h2 {
-            font-size: 20px;
-            margin-bottom: 12px;
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
         }
 
-        p {
+        .section-title {
+            margin: 0 0 8px;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .page-title {
+            margin: 0 0 8px;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .muted {
             color: var(--muted);
-            line-height: 1.5;
         }
 
-        label {
+        .label {
             display: block;
             margin-bottom: 6px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
             color: var(--text);
         }
 
         input,
         select,
-        button,
         textarea {
             width: 100%;
-            padding: 11px 12px;
-            margin-top: 6px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 14px;
+        }
+
+        button {
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 11px 12px;
+            border: 1px solid var(--border);
             background: white;
+            color: var(--text);
+            margin-bottom: 16px;
         }
 
         input:focus,
@@ -139,58 +172,79 @@
         }
 
         button {
-            background: var(--primary);
-            color: white;
+            width: auto;
+            padding: 11px 14px;
             border: none;
             cursor: pointer;
-            font-weight: 600;
-            transition: 0.2s ease;
+            font-weight: 700;
+            background: var(--primary);
+            color: white;
+            transition: background 0.18s ease, transform 0.06s ease;
         }
-
         button:hover {
             background: var(--primary-dark);
         }
 
-        .button-secondary {
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-dark);
+        }
+
+        .btn-secondary {
             background: white;
             color: var(--text);
             border: 1px solid var(--border);
         }
 
-        .button-secondary:hover {
-            background: #f9fafb;
+        .btn-secondary:hover {
+            background: var(--surface-soft);
         }
 
-        .button-danger {
-            background: var(--danger);
+        .inline-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
         }
 
-        .button-danger:hover {
-            background: #b91c1c;
+        .inline-actions a,
+        .inline-actions button {
+            width: auto;
         }
 
-        .muted {
-            color: var(--muted);
-        }
-
-        .section-gap {
-            margin-top: 20px;
-        }
-
-        .stack {
-            display: grid;
-            gap: 20px;
-        }
-
-        .list-reset {
+        .item-list {
             list-style: none;
             padding: 0;
             margin: 0;
         }
 
-        .item-row {
+        .item {
             padding: 14px 0;
             border-bottom: 1px solid var(--border);
+        }
+
+        .item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .item-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .meta {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.5;
         }
 
         .badge {
@@ -198,10 +252,8 @@
             padding: 4px 10px;
             border-radius: 999px;
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
             margin-right: 8px;
-            background: #eef2ff;
-            color: var(--primary-dark);
         }
 
         .badge-high {
@@ -219,19 +271,43 @@
             color: #166534;
         }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+        .hero {
+            padding: 30px 30px 26px;
         }
 
-        @media (max-width: 768px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
+        .surface-soft {
+            background: var(--surface-soft);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+        }
 
-            .topbar-inner {
-                align-items: flex-start;
+        .calendar-link-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .calendar-link-row a {
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .calendar-link-row a:hover {
+            background: #eff6ff;
+            color: var(--primary-dark);
+        }
+
+        @media (max-width: 900px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -241,19 +317,19 @@
         <div class="topbar-inner">
             <div class="brand">StudyFlow</div>
 
-<nav>
-    <a href="/dashboard">Dashboard</a>
-    <a href="/subjects">Subjects</a>
-    <a href="/assignments">Assignments</a>
-    <a href="/calendar">Calendar</a>
-    <a href="/calendar/import-subjects">Import Subjects</a>
-    <a href="/calendar-view">Calendar View</a>
-    <a href="/recommendations">Recommendations</a>
-    <a href="/planner">Planner</a>
-    <a href="/login">Login</a>
-    <a href="/signup">Signup</a>
-    <a href="/logout">Logout</a>
-</nav>
+            <nav>
+                <a href="/dashboard">Dashboard</a>
+                <a href="/subjects">Subjects</a>
+                <a href="/assignments">Assignments</a>
+                <a href="/calendar">Calendar</a>
+                <a href="/calendar/import-subjects">Import Subjects</a>
+                <a href="/calendar-view">Calendar View</a>
+                <a href="/recommendations">Recommendations</a>
+                <a href="/planner">Planner</a>
+                <a href="/login">Login</a>
+                <a href="/signup">Signup</a>
+                <a href="/logout">Logout</a>
+            </nav>
         </div>
     </div>
 

@@ -1,77 +1,71 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="card">
-    <h1>Welcome to StudyFlow</h1>
-    <p>Hello, {{ user.full_name }}.</p>
+<div class="card hero">
+    <h1 class="page-title">Welcome to StudyFlow</h1>
+    <p class="muted">Hello, {{ user.full_name }}. Manage subjects, assignments, schedules, and study planning in one place.</p>
+
+    <div class="calendar-link-row">
+        <a href="/calendar">Upload Class Schedule</a>
+        <a href="/calendar/import-subjects">Import Subjects</a>
+        <a href="/assignments">Manage Assignments</a>
+        <a href="/recommendations">View Recommendations</a>
+        <a href="/planner">Open Planner</a>
+        <a href="/calendar-view">Open Calendar View</a>
+    </div>
 </div>
 
 <br>
 
-<div class="card">
-    <h2>Overdue Assignments</h2>
-    {% if overdue %}
-       <ul style="list-style: none; padding: 0; margin: 0;">
-    {% for item in overdue %}
-        <li style="padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
-            <div><strong>{{ item.title }}</strong></div>
-            <div style="font-size: 14px; color: #555; margin-top: 4px;">
-                Subject: {{ item.subject.name }}
-            </div>
-            <div style="font-size: 14px; color: #555;">
-                Due Date: {{ item.due_date }}
-            </div>
-        </li>
-    {% endfor %}
-</ul>
-    {% else %}
-        <p>No overdue assignments.</p>
-    {% endif %}
-</div>
+<div class="grid-3">
+    <div class="card compact">
+        <h2 class="section-title">Overdue</h2>
+        {% if overdue %}
+            <ul class="item-list">
+                {% for item in overdue %}
+                    <li class="item">
+                        <div class="item-title">{{ item.title }}</div>
+                        <div class="meta">Subject: {{ item.subject.name }}</div>
+                        <div class="meta">Due Date: {{ item.due_date }}</div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="muted">No overdue assignments.</p>
+        {% endif %}
+    </div>
 
-<br>
+    <div class="card compact">
+        <h2 class="section-title">Due Soon</h2>
+        {% if due_soon %}
+            <ul class="item-list">
+                {% for item in due_soon %}
+                    <li class="item">
+                        <div class="item-title">{{ item.title }}</div>
+                        <div class="meta">Subject: {{ item.subject.name }}</div>
+                        <div class="meta">Due Date: {{ item.due_date }}</div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="muted">No assignments due soon.</p>
+        {% endif %}
+    </div>
 
-<div class="card">
-    <h2>Due Within 7 Days</h2>
-    {% if due_soon %}
-       <ul style="list-style: none; padding: 0; margin: 0;">
-    {% for item in due_soon %}
-        <li style="padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
-            <div><strong>{{ item.title }}</strong></div>
-            <div style="font-size: 14px; color: #555; margin-top: 4px;">
-                Subject: {{ item.subject.name }}
-            </div>
-            <div style="font-size: 14px; color: #555;">
-                Due Date: {{ item.due_date }}
-            </div>
-        </li>
-    {% endfor %}
-</ul>
-    {% else %}
-        <p>No assignments due soon.</p>
-    {% endif %}
-</div>
-
-<br>
-
-<div class="card">
-    <h2>Completed Assignments</h2>
-    {% if completed %}
-        <ul style="list-style: none; padding: 0; margin: 0;">
-    {% for item in completed %}
-        <li style="padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
-            <div><strong>{{ item.title }}</strong></div>
-            <div style="font-size: 14px; color: #555; margin-top: 4px;">
-                Subject: {{ item.subject.name }}
-            </div>
-            <div style="font-size: 14px; color: #555;">
-                Status: Completed
-            </div>
-        </li>
-    {% endfor %}
-</ul>
-    {% else %}
-        <p>No completed assignments yet.</p>
-    {% endif %}
+    <div class="card compact">
+        <h2 class="section-title">Completed</h2>
+        {% if completed %}
+            <ul class="item-list">
+                {% for item in completed %}
+                    <li class="item">
+                        <div class="item-title">{{ item.title }}</div>
+                        <div class="meta">Subject: {{ item.subject.name }}</div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="muted">No completed assignments yet.</p>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
