@@ -1,10 +1,10 @@
 from collections import defaultdict
 from datetime import datetime, date, timedelta
-
+from fastapi import APIRouter, Depends, Request
+from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
-
 from app.db import get_db
 from app.models import Assignment, ClassEvent, StudySession
 
@@ -197,3 +197,41 @@ def generate_study_sessions(request: Request, db: Session = Depends(get_db)):
 
     db.commit()
     return RedirectResponse(url="/planner", status_code=303)
+
+
+@router.post("/study-sessions/{session_id}/update")
+async def update_study_session(session_id: int, request: Request, db: Session = Depends(get_db)):
+    user_id = request.session.get("user_id")
+    if not user_id:
+        return JSONResponse({"detail": "Unauthorized"}, status_code=401)
+
+    session = (
+        db.query(StudySession)
+        .filter(StudySession.id == session_id, StudySession.user_id == user_id)
+        .first()
+    )
+
+    if not session:
+        return JSONResponse({"detail": "Study session not found"}, status_code=404)
+
+    data = await request.json()
+
+    start = data.get("start")
+    end = data.get("end")
+
+    if not start or not end:
+        return JSONResponse({"detail": "Missing start or end"}, status_code=400)
+
+    try:
+        start_dt = datetime.fromisoformat(start.replace("Z", ""))
+        end_dt = datetime.fromisoformat(end.replace("Z", ""))
+    except ValueError:
+        return JSONResponse({"detail": "Invalid datetime format"}, status_code=400)
+
+    session.session_date = start_dt.date().isoformat()
+    session.start_time = start_dt.strftime("%H:%M")
+    session.end_time = end_dt.strftime("%H:%M")
+
+    db.commit()
+
+    return JSONResponse({"success": True})

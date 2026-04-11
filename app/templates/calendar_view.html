@@ -3,7 +3,7 @@
 {% block content %}
 <div class="card">
     <h1>Weekly Calendar View</h1>
-    <p>Blue blocks are classes. Green blocks are suggested study sessions.</p>
+    <p>Blue blocks are classes. Green blocks are study sessions. You can drag or resize study sessions.</p>
 </div>
 
 <br>
@@ -26,6 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
         slotMinTime: "08:00:00",
         slotMaxTime: "22:00:00",
         nowIndicator: true,
+        editable: true,
+        eventResizableFromStart: true,
         headerToolbar: {
             left: "prev,next today",
             center: "title",
@@ -36,6 +38,64 @@ document.addEventListener("DOMContentLoaded", function () {
             hour: "2-digit",
             minute: "2-digit",
             meridiem: false
+        },
+
+        eventAllow: function(dropInfo, draggedEvent) {
+            return draggedEvent.extendedProps.type === "study_session";
+        },
+
+        eventDrop: async function(info) {
+            const event = info.event;
+
+            if (event.extendedProps.type !== "study_session") {
+                info.revert();
+                return;
+            }
+
+            const sessionId = event.extendedProps.session_id;
+
+            const response = await fetch(`/study-sessions/${sessionId}/update`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    start: event.start.toISOString(),
+                    end: event.end.toISOString()
+                })
+            });
+
+            if (!response.ok) {
+                info.revert();
+                alert("Could not update study session.");
+            }
+        },
+
+        eventResize: async function(info) {
+            const event = info.event;
+
+            if (event.extendedProps.type !== "study_session") {
+                info.revert();
+                return;
+            }
+
+            const sessionId = event.extendedProps.session_id;
+
+            const response = await fetch(`/study-sessions/${sessionId}/update`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    start: event.start.toISOString(),
+                    end: event.end.toISOString()
+                })
+            });
+
+            if (!response.ok) {
+                info.revert();
+                alert("Could not resize study session.");
+            }
         }
     });
 
