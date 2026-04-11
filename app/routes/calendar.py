@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Depends, File, Form, Request, UploadFile
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from icalendar import Calendar
 
 from app.db import get_db
-from app.models import ClassEvent, Subject
+from app.models import ClassEvent, Subject , StudySession
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -215,3 +215,72 @@ async def import_subjects_submit(request: Request, db: Session = Depends(get_db)
 
     db.commit()
     return RedirectResponse(url="/subjects", status_code=303)
+
+@router.get("/calendar-view")
+def calendar_view_page(request: Request, db: Session = Depends(get_db)):
+    user_id = request.session.get("user_id")
+    if not user_id:
+        return RedirectResponse(url="/login", status_code=303)
+
+    return templates.TemplateResponse(
+        request,
+        "calendar_view.html",
+        {
+            "request": request,
+        },
+    )
+
+@router.get("/calendar-events")
+def calendar_events(request: Request, db: Session = Depends(get_db)):
+    user_id = request.session.get("user_id")
+    if not user_id:
+        return JSONResponse({"detail": "Unauthorized"}, status_code=401)
+
+    events = (
+        db.query(ClassEvent)
+        .filter(ClassEvent.user_id == user_id)
+        .all()
+    )
+
+    study_sessions = (
+        db.query(StudySession)
+        .filter(StudySession.user_id == user_id)
+        .all()
+    )
+
+    calendar_items = []
+
+    for event in events:
+        start_value = event.start_time.replace(" ", "T")
+        end_value = event.end_time.replace(" ", "T")
+
+        calendar_items.append(
+            {
+                "title": event.title,
+                "start": start_value,
+                "end": end_value,
+                "color": "#2563eb",
+                "extendedProps": {
+                    "type": "class_event",
+                },
+            }
+        )
+
+    for session in study_sessions:
+        start_value = f"{session.session_date}T{session.start_time}:00"
+        end_value = f"{session.session_date}T{session.end_time}:00"
+
+        calendar_items.append(
+            {
+                "title": session.title,
+                "start": start_value,
+                "end": end_value,
+                "color": "#16a34a",
+                "extendedProps": {
+                    "type": "study_session",
+                    "session_id": session.id,
+                },
+            }
+        )
+
+    return JSONResponse(calendar_items)

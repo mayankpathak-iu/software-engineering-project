@@ -5,66 +5,260 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>StudyFlow</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 16px;
-            background: #f7f7fb;
-            color: #222;
+        :root {
+            --bg: #f5f7fb;
+            --card: #ffffff;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+            --radius: 14px;
         }
-        nav {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        a {
-            text-decoration: none;
-            color: #1d4ed8;
-        }
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 24px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-        }
-        .error {
-            color: #b91c1c;
-            margin-bottom: 12px;
-        }
-        input, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            margin-bottom: 14px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+
+        * {
             box-sizing: border-box;
         }
-        button {
-            background: #111827;
-            color: white;
-            cursor: pointer;
-            border: none;
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
         }
+
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 20px 60px;
+        }
+
+        .topbar {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .topbar-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        nav a:hover {
+            background: #eef2ff;
+            color: var(--primary-dark);
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+            color: var(--text);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        input,
+        select,
+        button,
+        textarea {
+            width: 100%;
+            padding: 11px 12px;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            background: white;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
         button:hover {
-            background: #1f2937;
+            background: var(--primary-dark);
+        }
+
+        .button-secondary {
+            background: white;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .button-secondary:hover {
+            background: #f9fafb;
+        }
+
+        .button-danger {
+            background: var(--danger);
+        }
+
+        .button-danger:hover {
+            background: #b91c1c;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .section-gap {
+            margin-top: 20px;
+        }
+
+        .stack {
+            display: grid;
+            gap: 20px;
+        }
+
+        .list-reset {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .item-row {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 8px;
+            background: #eef2ff;
+            color: var(--primary-dark);
+        }
+
+        .badge-high {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-low {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar-inner {
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/subjects">Subjects</a>
-        <a href="/assignments">Assignments</a>
-        <a href="/login">Login</a>
-        <a href="/signup">Signup</a>
-        <a href="/logout">Logout</a>
-        <a href="/calendar">Calendar</a>
-        <a href="/recommendations">Recommendations</a>
-        <a href="/planner">Planner</a>
-    </nav>
+    <div class="topbar">
+        <div class="topbar-inner">
+            <div class="brand">StudyFlow</div>
 
-    {% block content %}{% endblock %}
+<nav>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/subjects">Subjects</a>
+    <a href="/assignments">Assignments</a>
+    <a href="/calendar">Calendar</a>
+    <a href="/calendar/import-subjects">Import Subjects</a>
+    <a href="/calendar-view">Calendar View</a>
+    <a href="/recommendations">Recommendations</a>
+    <a href="/planner">Planner</a>
+    <a href="/login">Login</a>
+    <a href="/signup">Signup</a>
+    <a href="/logout">Logout</a>
+</nav>
+        </div>
+    </div>
+
+    <main class="page">
+        {% block content %}{% endblock %}
+    </main>
 </body>
 </html>

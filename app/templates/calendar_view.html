@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Weekly Calendar View</h1>
+    <p>Blue blocks are classes. Green blocks are suggested study sessions.</p>
+</div>
+
+<br>
+
+<div class="card">
+    <div id="calendar"></div>
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const calendarEl = document.getElementById("calendar");
+
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: "timeGridWeek",
+        height: "auto",
+        allDaySlot: false,
+        slotMinTime: "08:00:00",
+        slotMaxTime: "22:00:00",
+        nowIndicator: true,
+        headerToolbar: {
+            left: "prev,next today",
+            center: "title",
+            right: "timeGridWeek,timeGridDay"
+        },
+        events: "/calendar-events",
+        eventTimeFormat: {
+            hour: "2-digit",
+            minute: "2-digit",
+            meridiem: false
+        }
+    });
+
+    calendar.render();
+});
+</script>
+{% endblock %}

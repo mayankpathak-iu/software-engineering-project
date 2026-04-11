@@ -17,6 +17,7 @@ class User(Base):
     subjects = relationship("Subject", back_populates="user", cascade="all, delete-orphan")
     assignments = relationship("Assignment", back_populates="user", cascade="all, delete-orphan")
     class_events = relationship("ClassEvent", cascade="all, delete-orphan")
+    study_sessions = relationship("StudySession", cascade="all, delete-orphan")
 
 
 
@@ -68,3 +69,21 @@ class ClassEvent(Base):
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     user = relationship("User")
+
+class StudySession(Base):
+    __tablename__ = "study_sessions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    assignment_id = Column(Integer, ForeignKey("assignments.id"), nullable=True)
+
+    title = Column(String(255), nullable=False)
+    session_date = Column(String(20), nullable=False)
+    start_time = Column(String(10), nullable=False)
+    end_time = Column(String(10), nullable=False)
+    source = Column(String(20), nullable=False, default="suggested")
+
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    user = relationship("User")
+    assignment = relationship("Assignment")

@@ -9,6 +9,15 @@
 <br>
 
 <div class="card">
+    <h2>Generate Calendar Study Sessions</h2>
+    <p>This will create suggested study blocks that can be used in the interactive calendar view.</p>
+
+    <form method="post" action="/study-sessions/generate">
+        <button type="submit">Generate Study Sessions</button>
+    </form>
+</div>
+
+<div class="card">
     <h2>Planning Warnings</h2>
 
     {% if warnings %}
