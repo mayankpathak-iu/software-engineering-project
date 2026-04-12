@@ -4,6 +4,11 @@
 
 StudyFlow is a browser-based web application that helps students manage **subjects**, **assignments**, **class schedules**, and **study sessions** in one place. Instead of only showing deadlines, it combines timetable data with assignment urgency and estimated effort to suggest **when** study should happen.
 
+## Demo Videos
+
+- [Demo Video 1 – Full solution walkthrough](https://youtu.be/FVmYdKJPiBM)
+- [Demo Video 2 – Additional walkthrough / interaction demo](https://youtu.be/7OWrmMLAPfM)
+
 ---
 
 ## Why StudyFlow?
@@ -26,21 +31,33 @@ StudyFlow addresses that gap by combining:
 
 ---
 
+## Quick Product View
+
+### Dashboard
+The dashboard gives a quick snapshot of overdue, due-soon, and completed assignments so the student can understand workload immediately after login.
+
+![Dashboard](docs/67FB5B6A-676D-46FB-A418-611DBA65C6D0.jpeg)
+
+---
+
 ## Core Features
 
 ### 1. User Authentication
 Students can sign up, log in, and use a personal workspace with isolated data.
 
-![Login Page](readme_assets/login_page.png)
+![Login Page](docs/4CBF12B3-912D-439F-95B6-0182B969CA6E.png)
+
+The signup flow also includes validation, such as duplicate email detection.
+
+![Signup Validation](docs/1FB188FA-17D0-49C8-B2D2-FADD0F674D42.jpeg)
 
 ### 2. Subject Management
 Subjects can be created manually or imported from timetable data. Each subject has a name, code, and color.
 
-![Subjects Page](readme_assets/subjects_page.png)
+![Subjects Page](docs/D7A1D98B-D6AA-46C7-AEFE-DD1CCA15B103.png)
 
 ### 3. Assignment Management
 Assignments are linked to subjects and include:
-
 - title
 - due date
 - priority
@@ -50,7 +67,7 @@ Assignments are linked to subjects and include:
 
 If no subject exists yet, the application clearly guides the user to create one first.
 
-![Assignments Empty State](readme_assets/assignments_empty_state.png)
+![Assignments Empty State](docs/06E9D281-AAEB-4424-A014-3FA6C8D73415.png)
 
 ### 4. `.ics` Timetable Import
 Students can upload a timetable exported from their university or calendar application. StudyFlow parses the `.ics` file and stores lecture events as fixed class events.
@@ -58,37 +75,30 @@ Students can upload a timetable exported from their university or calendar appli
 ### 5. Import Subjects from Calendar
 After uploading a timetable, StudyFlow extracts candidate subjects from calendar titles. The user can review and edit the detected subject name and code before importing.
 
-![Import Subjects from Calendar](readme_assets/import_subjects.png)
+![Import Subjects from Calendar](docs/1BDAFCB2-54D7-4B3C-B3A6-21037F9B5AA4.png)
 
 ### 6. Study Recommendations
 The recommendation engine looks at pending assignments, urgency, estimated hours, and class intensity, then suggests the next best steps.
 
 It can highlight:
-
 - the most urgent assignment
 - total pending study hours
 - lighter class days for focused work
 - potential overload before deadlines
 
-![Recommendations](readme_assets/recommendations.png)
+![Recommendations](docs/44D014F8-8668-4B09-BEAC-3B688C283320.png)
 
 ### 7. Planner + Study Sessions
 StudyFlow generates suggested study sessions based on workload and time availability before deadlines.
 
 ### 8. Weekly Calendar View
 The weekly calendar combines:
-
 - **blue blocks** → fixed class events
 - **green blocks** → generated study sessions
 
 Study sessions can be dragged or resized directly in the calendar.
 
-![Weekly Calendar View](readme_assets/weekly_calendar.png)
-
-### 9. Validation Feedback
-The app includes practical validation flows such as duplicate email detection during signup.
-
-![Signup Validation](readme_assets/signup_validation.png)
+![Weekly Calendar View](docs/D7C90748-C9D7-43A0-8B1A-143A9B66E051.png)
 
 ---
 
@@ -114,15 +124,15 @@ StudyFlow follows a layered architecture.
 
 ### Building Block View
 
-![Building Block View](readme_assets/building_block_view.png)
+![Building Block View](docs/studyflow_figure1_building_block.png)
 
 ### Technical Architecture
 
-![Technical Architecture](readme_assets/technical_architecture.png)
+![Technical Architecture](docs/studyflow_tech_architecture.png)
 
 ### Data Model
 
-![Data Model](readme_assets/data_model.png)
+![Data Model](docs/studyflow_figure2_data_model.png)
 
 ---
 
@@ -130,7 +140,6 @@ StudyFlow follows a layered architecture.
 
 ### Presentation Layer
 Server-rendered Jinja2 templates provide the user-facing views:
-
 - Dashboard
 - Subjects
 - Assignments
@@ -142,7 +151,6 @@ Server-rendered Jinja2 templates provide the user-facing views:
 
 ### Application Logic Layer
 FastAPI route handlers and business logic modules handle:
-
 - authentication
 - subject management
 - assignment management
@@ -153,7 +161,6 @@ FastAPI route handlers and business logic modules handle:
 
 ### Persistence Layer
 SQLAlchemy models persist the main entities:
-
 - `User`
 - `Subject`
 - `Assignment`
@@ -239,29 +246,6 @@ Then open:
 http://localhost:8000
 ```
 
----
-
-## Docker
-
-If the repository includes a working `Dockerfile`, the project can also be built and run in a container.
-
-Typical flow:
-
-```bash
-docker build -t studyflow .
-docker run -p 8000:8000 studyflow
-```
-
-If a `docker-compose.yml` is included:
-
-```bash
-docker compose up --build
-```
-
-> Note: if SQLite is used inside the container, persistent storage should be mounted as a Docker volume if data retention is required across container restarts.
-
----
-
 ## Suggested User Flow
 
 1. Sign up or log in
@@ -295,19 +279,9 @@ docker compose up --build
 - export to PDF / image
 - automated tests for planner and recommendation logic
 
----
-
-## Repository
-
-**GitHub:**  
-https://github.com/mayankpathak-iu/software-engineering-project
-
----
-
 ## Project Summary
 
 StudyFlow was built as a software engineering course project and evolved across three phases:
-
 - **Phase 1:** problem framing, scope, requirements, and initial design
 - **Phase 2:** implementation, technological approach, and architecture refinement
 - **Phase 3:** final report, testing evidence, screenshots, and project consolidation
