@@ -37,8 +37,6 @@ StudyFlow addresses that gap by combining:
 
 The dashboard gives a quick snapshot of overdue, due-soon, and completed assignments so the student can understand workload immediately after login.
 
-![Dashboard](docs/67FB5B6A-676D-46FB-A418-611DBA65C6D0.jpeg)
-
 ![Test Dashboard](docs/Test/Test%20dashboard.png)
 
 ---
@@ -47,15 +45,7 @@ The dashboard gives a quick snapshot of overdue, due-soon, and completed assignm
 
 ### 1. User Authentication
 
-Students can sign up, log in, and use a personal workspace with isolated data.
-
-![Login Page](docs/4CBF12B3-912D-439F-95B6-0182B969CA6E.png)
-
-The signup flow also includes validation, such as duplicate email detection.
-
-![Signup Validation](docs/1FB188FA-17D0-49C8-B2D2-FADD0F674D42.jpeg)
-
-**Login test run:**
+Students can sign up, log in, and use a personal workspace with isolated data. The signup flow also includes validation, such as duplicate email detection.
 
 ![Login Test](docs/Test/Login%20Test.jpg)
 
@@ -64,10 +54,6 @@ The signup flow also includes validation, such as duplicate email detection.
 ### 2. Subject Management
 
 Subjects can be created manually or imported from timetable data. Each subject has a name, code, and color.
-
-![Subjects Page](docs/D7A1D98B-D6AA-46C7-AEFE-DD1CCA15B103.png)
-
-**Subjects test run:**
 
 ![Subjects Test](docs/Test/Subjects.png)
 
@@ -85,10 +71,6 @@ Assignments are linked to subjects and include:
 
 If no subject exists yet, the application clearly guides the user to create one first.
 
-![Assignments Empty State](docs/06E9D281-AAEB-4424-A014-3FA6C8D73415.png)
-
-**Assignments test run:**
-
 ![Assignments Test](docs/Test/Assignments.jpeg)
 
 ---
@@ -96,8 +78,6 @@ If no subject exists yet, the application clearly guides the user to create one 
 ### 4. `.ics` Timetable Import
 
 Students can upload a timetable exported from their university or calendar application. StudyFlow parses the `.ics` file and stores lecture events as fixed class events.
-
-**Calendar import test run:**
 
 ![Calendar Import Test](docs/Test/Calendar%20Import.jpeg)
 
@@ -107,13 +87,7 @@ Students can upload a timetable exported from their university or calendar appli
 
 After uploading a timetable, StudyFlow extracts candidate subjects from calendar titles. The user can review and edit the detected subject name and code before importing.
 
-![Import Subjects from Calendar](docs/1BDAFCB2-54D7-4B3C-B3A6-21037F9B5AA4.png)
-
-**Import subjects test runs:**
-
 ![Import from Calendar Test](docs/Test/Import%20from%20calendar.jpeg)
-
-![Import Subjects Test](docs/Test/Import%20subjects.png)
 
 ---
 
@@ -127,10 +101,6 @@ It can highlight:
 - lighter class days for focused work
 - potential overload before deadlines
 
-![Recommendations](docs/44D014F8-8668-4B09-BEAC-3B688C283320.png)
-
-**Recommendations test run:**
-
 ![Test Recommendation](docs/Test/Test%20Recommendation.png)
 
 ---
@@ -138,8 +108,6 @@ It can highlight:
 ### 7. Planner + Study Sessions
 
 StudyFlow generates suggested study sessions based on workload and time availability before deadlines.
-
-**Planner test run:**
 
 ![Planner Test](docs/Test/Planner.jpeg)
 
@@ -152,10 +120,6 @@ The weekly calendar combines:
 - **green blocks** → generated study sessions
 
 Study sessions can be dragged or resized directly in the calendar.
-
-![Weekly Calendar View](docs/D7C90748-C9D7-43A0-8B1A-143A9B66E051.png)
-
-**Calendar view test run:**
 
 ![Calendar View Test](docs/Test/Calendar%20view.png)
 
@@ -183,31 +147,25 @@ StudyFlow follows a layered architecture.
 
 ### Building Block View
 
-![Building Block View](docs/studyflow_figure1_building_block.png)
-
-> Full diagram: [studyflow_figure1_building_block.pdf](docs/studyflow_figure1_building_block.pdf)
+📄 [View diagram: studyflow_figure1_building_block.pdf](docs/studyflow_figure1_building_block.pdf)
 
 ---
 
 ### Technical Architecture
 
-![Technical Architecture](docs/studyflow_tech_architecture.png)
-
-> Full diagram: [studyflow_tech_architecture.pdf](docs/studyflow_tech_architecture.pdf)
+📄 [View diagram: studyflow_tech_architecture.pdf](docs/studyflow_tech_architecture.pdf)
 
 ---
 
 ### Data Model
 
-![Data Model](docs/studyflow_figure2_data_model.png)
-
-> Full diagram: [studyflow_figure2_data_model.pdf](docs/studyflow_figure2_data_model.pdf)
+📄 [View diagram: studyflow_figure2_data_model.pdf](docs/studyflow_figure2_data_model.pdf)
 
 ---
 
 ### Planning Process Flow
 
-> Full diagram: [studyflow_figure3_process_flow.pdf](docs/studyflow_figure3_process_flow.pdf)
+📄 [View diagram: studyflow_figure3_process_flow.pdf](docs/studyflow_figure3_process_flow.pdf)
 
 ---
 
@@ -361,7 +319,6 @@ http://localhost:8000
 - schedule conflict detection
 - export to PDF / image
 - automated tests for planner and recommendation logic
-
 
 ## Project Summary
 
