@@ -34,15 +34,19 @@ StudyFlow addresses that gap by combining:
 ## Quick Product View
 
 ### Dashboard
+
 The dashboard gives a quick snapshot of overdue, due-soon, and completed assignments so the student can understand workload immediately after login.
 
 ![Dashboard](docs/67FB5B6A-676D-46FB-A418-611DBA65C6D0.jpeg)
+
+![Test Dashboard](docs/Test/Test%20dashboard.png)
 
 ---
 
 ## Core Features
 
 ### 1. User Authentication
+
 Students can sign up, log in, and use a personal workspace with isolated data.
 
 ![Login Page](docs/4CBF12B3-912D-439F-95B6-0182B969CA6E.png)
@@ -51,12 +55,26 @@ The signup flow also includes validation, such as duplicate email detection.
 
 ![Signup Validation](docs/1FB188FA-17D0-49C8-B2D2-FADD0F674D42.jpeg)
 
+**Login test run:**
+
+![Login Test](docs/Test/Login%20Test.jpg)
+
+---
+
 ### 2. Subject Management
+
 Subjects can be created manually or imported from timetable data. Each subject has a name, code, and color.
 
 ![Subjects Page](docs/D7A1D98B-D6AA-46C7-AEFE-DD1CCA15B103.png)
 
+**Subjects test run:**
+
+![Subjects Test](docs/Test/Subjects.png)
+
+---
+
 ### 3. Assignment Management
+
 Assignments are linked to subjects and include:
 - title
 - due date
@@ -69,15 +87,38 @@ If no subject exists yet, the application clearly guides the user to create one 
 
 ![Assignments Empty State](docs/06E9D281-AAEB-4424-A014-3FA6C8D73415.png)
 
+**Assignments test run:**
+
+![Assignments Test](docs/Test/Assignments.jpeg)
+
+---
+
 ### 4. `.ics` Timetable Import
+
 Students can upload a timetable exported from their university or calendar application. StudyFlow parses the `.ics` file and stores lecture events as fixed class events.
 
+**Calendar import test run:**
+
+![Calendar Import Test](docs/Test/Calendar%20Import.jpeg)
+
+---
+
 ### 5. Import Subjects from Calendar
+
 After uploading a timetable, StudyFlow extracts candidate subjects from calendar titles. The user can review and edit the detected subject name and code before importing.
 
 ![Import Subjects from Calendar](docs/1BDAFCB2-54D7-4B3C-B3A6-21037F9B5AA4.png)
 
+**Import subjects test runs:**
+
+![Import from Calendar Test](docs/Test/Import%20from%20calendar.jpeg)
+
+![Import Subjects Test](docs/Test/Import%20subjects.png)
+
+---
+
 ### 6. Study Recommendations
+
 The recommendation engine looks at pending assignments, urgency, estimated hours, and class intensity, then suggests the next best steps.
 
 It can highlight:
@@ -88,10 +129,24 @@ It can highlight:
 
 ![Recommendations](docs/44D014F8-8668-4B09-BEAC-3B688C283320.png)
 
+**Recommendations test run:**
+
+![Test Recommendation](docs/Test/Test%20Recommendation.png)
+
+---
+
 ### 7. Planner + Study Sessions
+
 StudyFlow generates suggested study sessions based on workload and time availability before deadlines.
 
+**Planner test run:**
+
+![Planner Test](docs/Test/Planner.jpeg)
+
+---
+
 ### 8. Weekly Calendar View
+
 The weekly calendar combines:
 - **blue blocks** → fixed class events
 - **green blocks** → generated study sessions
@@ -99,6 +154,10 @@ The weekly calendar combines:
 Study sessions can be dragged or resized directly in the calendar.
 
 ![Weekly Calendar View](docs/D7C90748-C9D7-43A0-8B1A-143A9B66E051.png)
+
+**Calendar view test run:**
+
+![Calendar View Test](docs/Test/Calendar%20view.png)
 
 ---
 
@@ -126,19 +185,36 @@ StudyFlow follows a layered architecture.
 
 ![Building Block View](docs/studyflow_figure1_building_block.png)
 
+> Full diagram: [studyflow_figure1_building_block.pdf](docs/studyflow_figure1_building_block.pdf)
+
+---
+
 ### Technical Architecture
 
 ![Technical Architecture](docs/studyflow_tech_architecture.png)
 
+> Full diagram: [studyflow_tech_architecture.pdf](docs/studyflow_tech_architecture.pdf)
+
+---
+
 ### Data Model
 
 ![Data Model](docs/studyflow_figure2_data_model.png)
+
+> Full diagram: [studyflow_figure2_data_model.pdf](docs/studyflow_figure2_data_model.pdf)
+
+---
+
+### Planning Process Flow
+
+> Full diagram: [studyflow_figure3_process_flow.pdf](docs/studyflow_figure3_process_flow.pdf)
 
 ---
 
 ## Layer Breakdown
 
 ### Presentation Layer
+
 Server-rendered Jinja2 templates provide the user-facing views:
 - Dashboard
 - Subjects
@@ -150,6 +226,7 @@ Server-rendered Jinja2 templates provide the user-facing views:
 - Weekly Calendar View
 
 ### Application Logic Layer
+
 FastAPI route handlers and business logic modules handle:
 - authentication
 - subject management
@@ -160,6 +237,7 @@ FastAPI route handlers and business logic modules handle:
 - study session updates
 
 ### Persistence Layer
+
 SQLAlchemy models persist the main entities:
 - `User`
 - `Subject`
@@ -168,6 +246,7 @@ SQLAlchemy models persist the main entities:
 - `StudySession`
 
 ### Supporting Libraries
+
 - `icalendar` → parses `.ics` timetable files
 - `FullCalendar` → renders the interactive weekly calendar
 - `GitHub` → version and release control
@@ -192,15 +271,19 @@ SQLAlchemy models persist the main entities:
 ## Key Design Decisions
 
 ### Rule-Based Planning
+
 Recommendations and planner output are intentionally rule-based instead of using a more opaque optimization model. That keeps the logic explainable and appropriate for a student planning tool.
 
 ### User-Reviewed Subject Import
+
 Calendar titles can vary a lot, so subject extraction is not fully automatic. The user reviews candidate subjects before they are created.
 
 ### Fixed Classes, Flexible Study Sessions
+
 Lectures remain fixed in the calendar, while study sessions are editable. This matches real academic behavior: classes are scheduled commitments, study blocks are adjustable.
 
 ### Server-Rendered UI
+
 A server-rendered approach keeps the system simpler and easier to reason about while still supporting a usable browser experience.
 
 ---
@@ -242,7 +325,7 @@ uvicorn app.main:app --reload
 
 Then open:
 
-```text
+```
 http://localhost:8000
 ```
 
@@ -278,6 +361,7 @@ http://localhost:8000
 - schedule conflict detection
 - export to PDF / image
 - automated tests for planner and recommendation logic
+
 
 ## Project Summary
 
